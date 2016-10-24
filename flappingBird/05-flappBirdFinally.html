@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        //设置全局变量
+        var context;  //图形上下文
+        var birdIndex = 0;  //用来计算小鸟图片的 下标
+        var cWidth = 400;
+        var cHeight = 600;
+        var pipeHeight = 200;  //水管之间的举例
+        var tid;  //定时器返回值
+
+        //第一步，把所有的图片全部绘制到canvas画布上
+        //01 背景图片绘制
+        // a 背景对象的构造函数
+        function Background(x,y,width,height,src){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            var image = new Image();
+            image.src = src;
+            this.image = image;
+            //JS中，如果有该属性，则直接赋值，如果不存在该属性，则先创建，再赋值。
+            this.draw = bgDraw;
+        }
+
+
+
+        //该函数作为背景对象的属性，另做封装
+        function bgDraw(){
+            //绘图的根本
+
+            context.drawImage(this.image,this.x,this.y,this.width,this.height);
+        }
+
+        // 上水管对象的构造函数
+        function TopPipe(x,y,width,height,src){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            var image = new Image();
+            image.src = src;
+            this.image = image;
+            this.draw = topPipeDraw;
+        }
+        function topPipeDraw(){
+            context.drawImage(this.image,159,520,130,760,this.x,this.y,this.width,this.height);
+        }
+
+        // 下水管构造函数
+        function BottomPipe(x,y,width,height,src){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            var image = new Image();
+            image.src = src;
+            this.image = image;
+            this.draw = bottomPipeDraw;
+        }
+        function bottomPipeDraw(){
+            //drawImage()函数中9个参数
+            //drawImage()
+            //填3个参数，图片,x,y
+            //填5个参数, 图片,x,y,width,height
+            //填9个参数(全填)
+                //第1个表示一个 图片对象
+                //第2~5个参数 表示 对图片对象 截取的地方的坐标以及截取到的宽高
+                //第6~9个参数 表示 该图片对象放在 画布的位置 （坐标及宽高）
+            context.drawImage(this.image,10,490,130,760,this.x,this.y,this.width,this.height);
+        }
+
+        // 小鸟构造函数
+        function Bird(x,y,width,height){
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            this.draw = birdDraw;
+        }
+        function birdDraw(){
+            birdIndex++;
+            var image = new Image();
+            image.src = 'images/'+birdIndex%3+'.gif';
+            context.drawImage(image,this.x,this.y,this.width,this.height);
+        }
+
+
+
+        //b 创建背景对象
+        var bg = new Background(0,0,cWidth,cHeight,'images/bg.png');
+        //创建地板对象
+        var ground = new Background(0,cHeight-50,cWidth,50,'images/ground.png');
+        //创建上水管对象
+        var topPipe = new TopPipe(200,0,80,230,'images/pipe.png');
+        //创建下方管对象
+        var bottomPipe = new BottomPipe(200,topPipe.height+pipeHeight,80,cHeight-topPipe.height-pipeHeight-ground.height,'images/pipe.png');
+        //创建小鸟对象
+        var bird = new Bird(100,300,42,32);
+
+        function drawAll(){
+            //c.背景对象绘制
+            bg.draw();
+            ground.draw();
+            topPipe.draw();
+            bottomPipe.draw();
+            bird.draw();
+
+            //循环操作
+            circle();
+        }
+
+        function circle(){
+            //在这里我去进行一些循环操作，比如小鸟移动，水管移动，判断是否碰撞，
+            //01 小鸟移动（y轴方向）
+            bird.y += 5;
+
+            //02 水管移动（x轴方向）
+            topPipe.x -= 6;
+//            bottomPipe.x -= 10;
+            bottomPipe.x = topPipe.x;
+            if(topPipe.x+topPipe.width<0){
+                topPipe.x = cWidth;
+                console.log(random);
+                topPipe.height = Math.random() * 200 + 100;
+                bottomPipe.y = topPipe.height + pipeHeight;
+                bottomPipe.height = cHeight - bottomPipe.y - ground.height;
+            }
+
+            //03 碰撞条件
+            //a. 和地板碰撞
+            var groundCondition = bird.y+bird.height >= ground.y;
+
+            //b. 和上水管碰撞
+            var topPipeCondition = (bird.x+bird.width>topPipe.x&&bird.x<topPipe.x+topPipe.width&&bird.y-5<=topPipe.height);
+            //c. 和下水管碰撞
+//            var bottomPipeCondition = bird.x+bird.width>topPipe.x&&bird.x<topPipe.x+topPipe.width
+
+            if (groundCondition||topPipeCondition) {
+                //说明发生碰撞，小鸟死亡
+                clearInterval(tid);
+            }
+        }
+
+
+        function init(){
+            //获取对象
+            var canvas = document.querySelector('#canvas');
+            context = canvas.getContext('2d');
+            //当页面加载完成以后，会进入这个函数
+
+            //设置定时器 单位毫秒
+            tid = setInterval(drawAll,40);
+
+            //控制键盘
+            document.addEventListener('keyup',function(e){
+                var currentKey = e.keyCode
+                switch (currentKey){
+                    case 32: //32是空格键
+                        //小鸟往上
+                        bird.y -= 80;
+                            if(bird.y <= 0){
+                                bird.y = 0;
+                            }else if(bird.x+bird.width>topPipe.x&&bird.x<topPipe.x+topPipe.width&&bird.y<=topPipe.height){
+                                bird.y = topPipe.height;
+                            }
+                        break;
+                }
+            });
+        }
+    </script>
+</head>
+<body onload="init()">
+
+<canvas id="canvas" width="400" height="600" style="background-color: #e0e0e0;"></canvas>
+
+</body>
+</html>

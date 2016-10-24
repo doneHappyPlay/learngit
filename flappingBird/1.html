@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+  <div>
+      <canvas id="myCanvas" height="680" width="720"></canvas>
+  </div>
+</body>
+</html>
+<script>
+    //全局变量
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var HEIGHT = 680;
+    var WIDTH = 720;
+    var DISTANCE = 200;
+    var START = 1;
+    var RUNNING = 2;
+    var GAME_OVER= 3;
+    var state = START;
+
+
+    //图像对象
+
+    var bi = [];
+     bi[0] = new Image();
+    bi[0].src = "images/0.gif";
+     bi[1] = new Image();
+    bi[1].src = "images/1.gif";
+     bi[2] = new Image();
+    bi[2].src = "images/2.gif";
+
+
+//    数据对象
+//    数据中没有变量
+    var READY = {x:(WIDTH)/2-100,y:(HEIGHT)/2-50,width:200,height:100,src:"images/pipe.png",sx:515,sy:310,swidth:491,sheight:151};
+    var OVER = {x:(WIDTH)/2-100,y:(HEIGHT)/2-50,width:200,height:100,src:"images/pipe.png",sx:5,sy:310,swidth:491,sheight:151};
+    var BACKGROUND ={width:720,height:680,src:"images/bg.png",x:0,y:0,swidth:720,sheight:1280,sx:0,sy:0};
+    var GROUND = {width:720,height:100,src:"images/ground.png",x:0,y:580};
+    var BIRD = {frames:bi,height:32,width:42,x:200,y:200};
+    var TOP = {sx:159,sy:520,swidth:130,sheight:760,src:"images/pipe.png"};
+    var BOTTOM = {sx:10,sy:490,swidth:130,sheight:760,src:"images/pipe.png"};
+//    var toppipe = {src:"images/pipe.png",sx:159,sy:520,swidth:130,sheight:760,x:0,y:0,width:80,height:230};
+//    var bottomPIPE ={src:"images/pipe.png",sx:10,sy:490,swidth:130,sheight:760,x:0,width:80,height:230,y:HEIGHT-330};
+
+
+
+
+
+    //业务对象
+    var Pipe = function(config,x,y,width,height){
+        var image = new Image();
+        image.src = config.src;
+        this.sx = config.sx;
+        this.sy = config.sy;
+        this.swidth =config.swidth;
+        this.sheight = config.sheight;
+        this.height = height;
+        this.width = width;
+        this.x = x;
+        this.y = y;
+        this.paint = function(){
+            ctx.drawImage(image,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y,this.width,this.height);
+        }
+    }
+    var Component = function(config){
+        var image = new Image();
+        image.src = config.src;
+        this.height = config.height;
+        this.width = config.width;
+        this.swidth = config.swidth;
+        this.sheight = config.sheight;
+        this.sx = config.sx;
+        this.sy = config.sy;
+        this.x = config.x;
+        this.y = config.y;
+        this.paint = function(){
+            ctx.drawImage(image,this.sx,this.sy,this.swidth,this.sheight,this.x,this.y,this.width,this.height);
+        }
+
+
+
+    }
+    var Bird = function(config){
+        this.height = config.height;
+        this.width = config.width;
+        this.frame = null;
+        this.frames = config.frames;
+        this.x = config.x;
+        this.y = config.y;
+        this.frameIndex = 0;
+        this.step = function(){
+            this.frameIndex++;
+            this.frame = config.frames[this.frameIndex%3];
+        }
+        this.paint = function(){
+
+            ctx.drawImage(this.frame,this.x,this.y);
+        }
+
+    }
+    var Background = function (config) {
+        this.x = config.x;
+        this.y = config.y;
+        var image = new Image();
+        image.src = config.src;
+        this.height = config.height;
+        this.width = config.width;
+        this.paint = function(){
+            ctx.drawImage(image,this.x,this.y);
+        }
+    }
+
+    //创建对象
+    //业务对象是指可以进行
+    var background = new Component(BACKGROUND);
+    var ground = new Background(GROUND);
+    var ready = new Component(READY);
+    var over = new Component(OVER);
+//    var TOPPIPE = {x:0,y:0,width:80,height:100,src:"images/pipe.png"};
+//    var BOTTOMPIPE = {x:toppipe.x,src:"images/pipe.png"};
+    var toppipe = new Pipe(TOP,0,0,80,100);
+    var bottompipe = new Pipe(BOTTOM,toppipe.x,(toppipe.height+DISTANCE),toppipe.width,HEIGHT-toppipe.height-DISTANCE-100);
+    var bird = new Bird(BIRD);
+
+    function circle(){
+        //小鸟的运动
+        bird.y++;
+        //管子横坐标移动
+        if(toppipe.x+toppipe.width<=0){
+            toppipe.x=WIDTH;
+            toppipe.height = 80+(230-80)*Math.random();
+        }else{
+            toppipe.x--;
+        }
+        //管子的长度变化
+        if(bottompipe.x+bottompipe.width<=0){
+            bottompipe.x=WIDTH;
+            bottompipe.height = 80+(230-80)*Math.random();
+            bottompipe.y = HEIGHT-100-bottompipe.height;
+        }else{
+            bottompipe.x--;
+        }
+
+
+
+    }
+    function checkHit(){
+        //与地板碰撞
+      var hitGround = bird.y+bird.height>=ground.y;
+        //与上水管碰撞
+        //小鸟的中心点左边为(bmx,bmy)
+        var bmx = bird.x +bird.width/2;
+        var bmy = bird.y + bird.height/2;
+        //上水管碰撞的左边界为leftBegin，右边界为rightEnd,下边界为bottomEnd
+        var u_leftBegin = toppipe.x-bird.width/2;
+        var u_rightEnd = toppipe.x +toppipe.width+bird.width/2;
+        var u_bottomEnd = toppipe.y+toppipe.height+bird.height/2;
+        var hittoppipe = bmx>=u_leftBegin&&bmx<=u_rightEnd&&bmy<=u_bottomEnd;
+        //小鸟与下水管碰撞
+        var d_leftBegin = bottompipe.x-bird.width/2;
+        var d_rightEnd = bottompipe.x +bottompipe.width+bird.width/2;
+        var d_topEnd = bottompipe.y-bird.height/2;
+        var hitbottomPipe = bmx>=d_leftBegin&&bmx<=d_rightEnd&&bmy>=d_topEnd;
+        if(hitbottomPipe||hitGround||hittoppipe){
+            state=GAME_OVER;
+        }
+    }
+    canvas.onclick = function(){
+        if(state==START){
+            state=RUNNING;
+        }
+    }
+    document.addEventListener("keyup",function(e){
+        var currentKey = e.keyCode;
+        if(state ==RUNNING){
+            if(currentKey==32){
+                bird.y-=50;
+                if(bird.y<=0){
+                    bird.y = 0;
+                }
+
+            }
+        }else{
+            bird.y-=0;
+        }
+
+    })
+
+
+
+
+    window.onload = function(){
+        setInterval(function (){
+            switch (state){
+                case START:
+                    background.paint();
+                    ground.paint();
+                    ready.paint();
+                    break;
+                case  RUNNING:
+                    background.paint();
+                    ground.paint();
+                    bird.step();
+                    circle();
+                    bird.paint();
+                    toppipe.paint();
+                    bottompipe.paint();
+                        checkHit();
+                    break;
+                case GAME_OVER:
+                    background.paint();
+                    ground.paint();
+                    bird.paint();
+                    toppipe.paint();
+                    bottompipe.paint();
+                    over.paint();
+
+            }
+
+
+
+
+        },10)
+
+    }
+</script>
