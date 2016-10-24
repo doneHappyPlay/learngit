@@ -1,0 +1,92 @@
+.cover{
+    background: #F8F8F8;
+    height: 50px;
+    width: 100%;
+}
+
+.cover li{
+    float: left;
+    line-height: 50px;
+    height: 50px;
+    /*width: 76px;*/
+    text-align: center;
+}
+.cover li a{
+    line-height: 50px;
+    height: 50px;
+    /*width: 76px;*/
+    text-align: center;
+    color: #555;
+    font-size: 16px;
+}
+/*#carousel-example-generic{*/
+    /*height: 318px;*/
+    /*overflow: hidden;*/
+/*}*/
+.myColor1{
+    color:#007DCC;
+}
+.myColor2{
+    color:#C2A599;
+}
+.system{
+    background-color: #eee;
+    height: 400px;
+}
+/*index*/
+
+
+/*信息*/
+body{
+    background-color: #eee;
+    font-family: "微软雅黑";
+}
+.infor-style{
+    background-color: #fff;
+    margin-bottom:20px;
+    padding:10px;
+    box-shadow: 3px 3px 8px #d0d0d0;
+
+}
+.infor1-style-box{
+    background-color: #fff;
+    box-shadow: 3px 3px 8px #d0d0d0;
+    margin-bottom:20px;
+    padding:10px;
+
+}
+
+
+
+
+
+/*屏幕宽度响应事件*/
+/*屏幕宽度小于等于768px*/
+@media screen and (max-width: 768px) {
+    #wxhl{
+        font-size: 12px;
+    }
+
+}
+/*屏幕宽度大于等于768px*/
+@media screen and (min-width: 768px) {
+    #wxhl{
+        font-size: 18px;
+    }
+}
+/*屏幕宽度大于等于992px*/
+@media screen and (min-width: 992px) {
+    #wxhl{
+        font-size: 24px;
+    }
+
+}
+/*屏幕宽度大于等于1200px*/
+@media screen and (min-width: 1200px) {
+    #wxhl{
+        font-size: 30px;
+    }
+}
+
+
+/*案例*/
