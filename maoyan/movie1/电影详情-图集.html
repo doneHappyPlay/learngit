@@ -1,0 +1,6 @@
+<div class="pics-container">
+	
+	<a ng-repeat="p in photos track by $index">
+		<img  ng-src="{{ p.tlink | replaceImg:110:110 }}" class="pics-item" />
+	</a>
+</div>

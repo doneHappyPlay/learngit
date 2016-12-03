@@ -1,0 +1,56 @@
+<div ng-controller="movieController">
+	
+	<div class="movie-type-list">
+		<div class="type-line">
+			<span class="tags-title">类型：</span>
+			<div ng-init="selectIndex1=0">
+				<a href="" 
+					ng-repeat="type in typelist" 
+					ng-class="{active:$index==selectIndex1}" 
+					ng-click="selected($index,1)">
+					{{ type }}
+				</a>
+			</div>
+		</div>
+		<div class="type-line type-line-border">
+			<span class="tags-title">区域：</span>
+			<div ng-init="selectIndex2=0">
+				<a href="" 
+					ng-repeat="country in countrys" 
+					ng-class="{active:$index==selectIndex2}" 
+					ng-click="selected($index,2)">
+					{{ country }}
+				</a>
+			</div>
+		</div>
+		<div class="type-line type-line-border">
+			<span class="tags-title">年份：</span>
+			<div ng-init="selectIndex3=0">
+				<a href="" 
+					ng-repeat="y in years" 
+					ng-class="{active:$index==selectIndex3}" 
+					ng-click="selected($index,3)">
+					{{ y }}
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="movie-list">
+		
+		<div class="movie-item" ng-repeat="m in movies">
+			<a ui-sref="navs.subpage4.info">
+				<img ng-src="{{ m.img }}" class="img-item" />
+				<p>
+					{{ m.nm }}
+				</p>
+			</a>
+			<div class="movie-rating">
+				<b class="big"> {{ getBigRating(m.sc) }} </b>
+				<b class="small"> {{ getSmallRating(m.sc) }} </b>
+			</div>
+		</div>	
+		
+	</div>
+	
+</div>

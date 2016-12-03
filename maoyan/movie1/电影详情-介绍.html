@@ -1,0 +1,108 @@
+<!--剧情介绍-->
+<div class="movie-module">
+	<div class="movie-module-title">
+		剧情简介
+	</div>
+	<div class="movie-module-content">
+		{{ movie.dra }}
+	</div>
+</div>
+
+<!--演职人员-->
+<div class="movie-module">
+	<div class="movie-module-title">
+		演职人员
+		<a href="" ng-click="selectedIndex=1" class="movie-more-actor">全部</a>
+	</div>
+	
+	<div class="movie-module-content">
+		
+		<div class="actor-container">
+			
+			<!--导演-->
+			<div ng-if="actorlist.directors" >
+				<div>导演</div>
+				<div class="movie-actor">
+					<a href="" ng-repeat="dir in actorlist.directors">
+						<div>
+							<img ng-src="{{ dir.avatar | replaceImg }}" />
+						</div>
+						<div style="text-align: center;">
+							{{ dir.cnm }}
+						</div>
+					</a>
+				</div>
+			</div>
+			
+			<!--演员-->
+			<div style="margin-left: 20px; width: 100%;">
+				<div>演员</div>
+				<div class="movie-actor">
+					<a href="" ng-repeat="dir in actorlist.actors | limitTo:4 ">
+						<div>
+							<img ng-src="{{ dir.avatar | replaceImg:128:170 }}" />
+						</div>
+						<div style="text-align: center;">
+							{{ dir.cnm }}
+						</div>
+					</a>									
+				</div>								
+			</div>
+			
+		</div>
+		
+	</div>
+	
+</div>			
+
+<!--图集-->
+<div class="movie-module">
+	<div class="movie-module-title">
+		图集
+	</div>
+	
+	<div class="movie-module-content">
+		
+		<div class="img-box">
+			<div>
+				<a href="">
+					<img class="img-larg" ng-src="{{ movie.photos[0] | replaceImg:460:258  }}" />
+				</a>
+			</div>
+			
+			<div>
+				<a href="" ng-repeat="img in movie.photos | limitTo:4:1">
+					<img class="img-small" ng-src="{{ img | replaceImg:126:126 }}" />
+				</a>	
+			</div>
+		</div>
+	</div>	
+	
+</div>
+
+<!--热门短评-->
+<div class="movie-module">
+	<div class="movie-module-title">
+		热门短评
+	</div>
+	
+	<div class="movie-module-content">
+		
+		<div class="cm-container">
+			<div ng-repeat="cm in cmts" style="padding: 20px 0 20px;">
+				<!--头像-->
+				<div class="cm-portrait">
+					<img ng-src="{{ cm.avatarurl | replaceImg:55:55 }}" />
+				</div>
+				
+				<!--评论内容-->
+				<div class="cm-content">
+					<div>{{ cm.nickName }}</div>
+					<div>{{ cm.time }}</div>
+					<p>{{ cm.content }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>	

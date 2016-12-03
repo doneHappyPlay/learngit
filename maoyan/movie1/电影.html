@@ -1,0 +1,80 @@
+<!--
+<div>
+	<div class="movie-nav" ng-init="selectIndex=1">
+		<a ui-sref=".subpage1" ng-class="{active:selectIndex==1}" ng-click="selectIndex=1">正在热映</a>
+		<a ui-sref=".subpage2" ng-class="{active:selectIndex==2}" ng-click="selectIndex=2">即将上映</a>
+		<a ui-sref=".subpage3" ng-class="{active:selectIndex==3}" ng-click="selectIndex=3">经典电影</a>
+	</div>
+	
+	<ui-view></ui-view>
+	
+</div>
+-->	
+
+<div ng-controller="movieController">
+	<div class="movie-nav" ng-init="selectIndex=0">
+		<a ng-class="{active:selectIndex==0}" ng-click="selectIndex=0">正在热映</a>
+		<a ng-class="{active:selectIndex==1}" ng-click="selectIndex=1">即将上映</a>
+		<a ng-class="{active:selectIndex==2}" ng-click="selectIndex=2">经典电影</a>
+	</div>
+	
+	<!--<ui-view></ui-view>-->
+	
+	<div>
+		
+		<div class="movie-type-list">
+			<div class="type-line">
+				<span class="tags-title">类型：</span>
+				<div ng-init="selectIndex1=0">
+					<a href="" 
+						ng-repeat="type in typelist" 
+						ng-class="{active:$index==selectIndex1}" 
+						ng-click="selected($index,1)">
+						{{ type }}
+					</a>
+				</div>
+			</div>
+			<div class="type-line type-line-border">
+				<span class="tags-title">区域：</span>
+				<div ng-init="selectIndex2=0">
+					<a href="" 
+						ng-repeat="country in countrys" 
+						ng-class="{active:$index==selectIndex2}" 
+						ng-click="selected($index,2)">
+						{{ country }}
+					</a>
+				</div>
+			</div>
+			<div class="type-line type-line-border">
+				<span class="tags-title">年份：</span>
+				<div ng-init="selectIndex3=0">
+					<a href="" 
+						ng-repeat="y in years" 
+						ng-class="{active:$index==selectIndex3}" 
+						ng-click="selected($index,3)">
+						{{ y }}
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<div class="movie-list">
+			
+			<div class="movie-item" ng-repeat="m in movies">
+				<a ui-sref="navs.subpage4.info">
+					<img ng-src="{{ m.img | replaceImg:160:220 }}" class="img-item" />
+					<p>
+						{{ m.nm }}
+					</p>
+				</a>
+				<div class="movie-rating">
+					<b class="big"> {{ getBigRating(m.sc) }} </b>
+					<b class="small"> {{ getSmallRating(m.sc) }} </b>
+				</div>
+			</div>	
+			
+		</div>
+		
+	</div>	
+	
+</div>

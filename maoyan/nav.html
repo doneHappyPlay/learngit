@@ -1,0 +1,33 @@
+<header>
+    <div class="container">
+        <div class="logo fl"></div>
+        <div class="area fl">
+            <div class="area-now"><span>深圳</span><span class="caret"></span></div>
+            <div class="area-list">
+                <img src="img/city1.png">
+            </div>
+        </div>
+        <nav class="nav fl">
+            <ul class="navbar" ng-init="selectIndex=1">
+                <li><a ui-sref=".home" ng-class="{active:selectIndex==1}" ng-click="selectIndex=1" >首页</a></li>
+                <li><a ui-sref=".movie" ng-class="{active:selectIndex==2}" ng-click="selectIndex=2">电影</a></li>
+                <li><a ui-sref=".board" ng-class="{active:selectIndex==3}" ng-click="selectIndex=3">榜单</a></li>
+                <li><a ui-sref=".hot" ng-class="{active:selectIndex==4}" ng-click="selectIndex=4">热点</a></li>
+            </ul>
+        </nav>
+        <div class="user-info fr">
+            <div class="user-avatar">
+                <img src="img/user-info.png">
+                <span class="caret"></span>
+            </div>
+            <ul class="user-menu">
+                <li><a href="javascript:;">登录</a> </li>
+            </ul>
+        </div>
+        <form class="fr search-form">
+            <input type="search" class="search" autocomplete="off" name="kw" placeholder="找影视剧、影人、影院">
+            <input type="submit" class="submit" value="">
+        </form>
+    </div>
+</header>
+<div ui-view></div>

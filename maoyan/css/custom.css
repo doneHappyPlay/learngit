@@ -1,0 +1,616 @@
+/*基本样式*/
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend,
+button, input, textarea, th, td { margin:0; padding:0;font-family: Microsoft YaHei,Helvetica,Arial,sans-serif; }
+body, button, input, select, textarea { font:12px/1.5tahoma, arial, \5b8b\4f53; }
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+address, cite, dfn, em, var { font-style:normal; }
+code, kbd, pre, samp { font-family:couriernew, courier, monospace; }
+small{ font-size:12px; }
+ul, ol { list-style:none; }
+a { text-decoration:none; }
+a:hover { text-decoration:none; }
+sup { vertical-align:text-top; }
+sub{ vertical-align:text-bottom; }
+legend { color:#000; }
+fieldset, img { border:0; }
+button, input, select, textarea { font-size:100%; }
+table { border-collapse:collapse; border-spacing:0; }
+.fr{
+    float: right;
+}
+.fl{
+    float: left;
+}
+input{
+    outline: none;
+}
+/*箭头*/
+.caret{
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 2px;
+    vertical-align: middle;
+    border-top: 5px dashed #666;
+    border-top: 5px solid #666\9;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+}
+
+/*导航条*/
+header{
+    height: 80px;
+    /*position: fixed;*/
+    /*top:0;*/
+    background-color: #fff;
+}
+nav ul li{
+    float: left;
+}
+nav ul li a{
+    display: inline-block;
+    line-height: 80px;
+    height:80px;
+    width:80px;
+    text-align: center;
+    color:black;
+    font-size: 18px;
+    font-family: Microsoft YaHei, Calibri, Tahoma, sans-serif;
+
+}
+a.active{
+    background-color: #EF4238;
+    color:#fff;
+}
+/*logo部分*/
+.logo{
+    width: 162px;
+    height:79px;
+    background:url(../img/logo.png) no-repeat ;
+}
+/*地区*/
+.area{
+    height: 83px;
+    width: 71px;
+    line-height: 71px;
+    text-align: center;
+    font-size: 18px;
+    font-family: Microsoft YaHei, Calibri, Tahoma, sans-serif;
+    position: relative;
+    z-index: 2;
+}
+.area-list{
+    width: 478px;
+    height: 330px;
+    background: url("../img/city1.png") no-repeat;
+    border:1px solid #ccc;
+    position: absolute;
+    top: 81px;
+    left: -1px;
+    z-index: 1;
+    display: none;
+}
+.area:hover{
+    border:1px solid #ccc;
+
+}
+b.triangle{
+    width: 0;
+    height:0;
+    position: absolute;
+    top: 33px;
+    left: 56px;
+    border-width: 5px;
+    border-color: grey transparent transparent transparent;
+    border-style: solid;
+}
+/*个人信息部分*/
+header.user-info{
+    height: 80px;
+    width: 80px;
+    position: relative;
+}
+.user-info img{
+    margin-top: 14px;
+}
+.user-info .caret{
+    position: relative;
+    top:10px;
+    left:0;
+}
+.user-info .user-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 80px;
+    border: 1px solid #d8d8d8;
+    min-width: 76px;
+    max-width: 114px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    line-height: 40px;
+    text-align: right;
+}
+
+/*搜索框*/
+.search-form{
+    position: relative;
+    margin:20px 10px 0 0;
+
+}
+.search{
+    width: 260px;
+    height: 40px;
+    border-radius: 30px;
+    background-color: #FAF8FA;
+    border:1px solid #ccc;
+    padding: 0 40px 0 20px;
+    overflow: hidden;
+    color:#333;
+    line-height: 1.2;
+    font-size: 14px;
+
+
+}
+.submit{
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background:#EF4238 url("../img/submit.png") 8px 7px  no-repeat;
+
+    outline: none;
+    border:0;
+    position: absolute;
+    top: 0;
+    left:220px;
+}
+/*轮播*/
+#carousel-example-generic{
+    position: absolute;
+    top:80px;
+
+}
+#my-slide{
+    position: relative;
+}
+#my-control{
+    position: absolute;
+    width: 1100px;
+    height: 120px;
+    background-color: #fff;
+    padding:5px 0 0 5px;
+    top: 50%;
+    left: 50%;
+    margin-left: -550px;
+    margin-top:155px;
+    /*box-shadow:  1px 1px 2px 2px #c0c0c0;*/
+    border:1px solid #ccc;
+
+}
+#my-control img.active{
+    background-color: #EF4238;
+    border:5px solid #FAF8FA;
+    width: 160px;
+    height: 108px;
+    margin:0;
+}
+
+/*左边按钮*/
+a.left.carousel-control{
+   width: 57px;
+}
+a.right.carousel-control{
+    width: 57px;
+}
+
+/*正在热映*/
+.in-theater{
+    margin-top: 600px;
+}
+
+.buy{
+    width: 160px;
+    border-width: 0 1px 1px 1px ;
+    border-style: solid;
+    border-color: #ccc;
+}
+.buy a{
+    line-height: 39px;
+    display: inline-block;
+    height: 39px;
+    color:#EF4238;
+    width: 100%;
+    text-align: center;
+
+}
+.buy a:hover{
+    background-color: #EF4238;
+    color:white;
+}
+.col-lg-3,.col-lg-6{
+    margin-top: 20px;
+    margin-bottom: 30px;
+    /*margin-left: 0;*/
+    /*padding-left: 0;*/
+}
+.red-text{
+    margin-left: 15px;
+    color:#EF4238;
+    font-size: 26px;
+    font-family: Microsoft YaHei,Helvetica,Arial,sans-serif;
+}
+/*即将上映*/
+.coming-soon{
+    margin-top: 200px;
+    margin-left: 15px;
+    color:#2d98f3;
+    font-size: 26px;
+    font-family: Microsoft YaHei,Helvetica,Arial,sans-serif;
+}
+.coming-soon-box{
+    margin-top: 20px;
+}
+.order{
+    width: 160px;
+    height: 73px;
+    border-width: 0 1px 1px 1px ;
+    border-style: solid;
+    border-color: #ccc;
+}
+.want{
+    font-size: 14px;
+    color: #ffb400;
+    background-color: #fbfbfb;
+    text-align: left;
+    padding-left: 10px;
+    height: 34px;
+    line-height: 34px;
+}
+.order a{
+    float: left;
+    line-height: 39px;
+    display: inline-block;
+    height: 39px;
+    color:#2d98f3;
+    width: 50%;
+    text-align: center;
+}
+.order a:hover{
+    color:#fff;
+    background-color: #2d98f3;
+}
+.order a:nth-of-type(1){
+    border-right: 1px solid #ccc;
+    color:#999;
+}
+.movie-detail{
+    border: none;
+    color: #999;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: center;
+
+}
+
+/*今日票房*/
+.list-group-item{
+
+    border:none;
+    font-size: 16px;
+    color:#333;
+    padding-left: 0;
+    padding-right: 0;
+}
+.media-heading{
+    margin-top: 14px;
+    font-size: 18px;
+}
+.list-group-item:first-child{
+    margin-top: 20px;
+    padding:0;
+    margin-bottom: 12px;
+}
+.media{
+    border:1px solid #ccc;
+}
+.ranking-index{
+    font-size: 18px;
+    color:#999;
+}
+.list-group-item:nth-of-type(2) i{
+    color:#EF4238;
+}
+.list-group-item:nth-of-type(3) i{
+    color:#EF4238;
+}
+p.ranking-num-info{
+    margin-top: 5px;
+    float: left;
+
+}
+.ranking-num-info {
+    /*text-align: right;*/
+    float: right;
+    font-size: 14px;
+    color: #EF4238;
+}
+.ranking-movie-name{
+    margin-left: 5px;
+}
+
+
+/*今日大盘*/
+.box-total{
+    width: 100%;
+    height: 105px;
+    border:1px solid #ccc;
+    background-color: #FDFDFD;
+}
+.box-total h2{
+    width: 40px;
+    font-size: 20px;
+    float: left;
+    word-wrap: break-word;
+    letter-spacing: 20px;
+    background-color: #EF4238;
+    color: #fff;
+    height: 105px;
+    padding:10px;
+}
+
+.box-total p:first-of-type{
+    margin-top: 10px;
+    padding:10px 10px 10px 20px;
+    width: 318px;
+    display: flex;
+    align-items: center;
+
+}
+.wan + a{
+    color:#EF4238;
+    margin-left: 115px;
+
+
+}
+.ticket{
+    font-size: 30px;
+    color:#EF4238;
+}
+.wan{
+    color:#EF4238;
+    margin-top: 12px;
+    margin-left: 5px;
+
+}
+
+.time{
+    color:#999;
+    padding-left:10px;
+}
+.time span{
+    margin-left: 10px;
+
+}
+
+/*最受期待*/
+.orange{
+    color:orange;
+}
+.panel1{
+    display: flex;
+    width: 100%;
+    margin-top: 60px;
+}
+.panel-title{
+    font-size: 26px;
+    align-self: center;
+}
+.panel-more{
+    align-self: center;
+    margin-left: 160px;
+
+}
+.panel-more a{
+    color:orange;
+}
+.right-arrow{
+    width: 8px;
+    height: 14px;
+    background: url("../img/right-arrow.png") no-repeat;
+    margin: 2px;
+
+}
+
+.forward-box{
+    display: flex;
+
+}
+.forward-item{
+    align-self: center;
+}
+.forward-item p:nth-child(1){
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.forward-item p:nth-child(2){
+    margin-top: 12px;
+    color: #999;
+}
+.forward-item p:nth-child(3){
+    margin-top: 12px;
+    font-size: 14px;
+    color: #ffb400;
+}
+
+/*底部*/
+footer{
+    background-color: #262426;
+    padding:56px 0;
+    color: #666;
+}
+.footer p, .footer p a {
+    color: #666;
+}
+.footer p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+/*次导航栏*/
+.subnav{
+    height: 60px;
+    background-color: #47464a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.subnav  a{
+    color:#999;
+    line-height: 60px;
+    height: 60px;
+    display: inline-block;
+}
+
+
+
+
+/*电影页面的导航栏*/
+.movie-box{
+    margin-top: 110px;
+}
+.movie-nav {
+    background-color: #47464a;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    top: 81px;
+}
+
+
+.movie-nav a {
+    width: 144px;
+    text-align: center;
+    line-height: 60px;
+    height: 100%;
+    color: #999;
+}
+
+.movie-nav a:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.movie-nav a.active {
+    color: red;
+}
+
+
+/*********************************电影列表*******************************/
+
+/*列表类型*/
+.movie-type-list {
+    width: 90%;
+    height: 180px;
+    border: 1px solid #e5e5e5;
+    margin: 40px auto 40px auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.type-line {
+    /*background-color: gray;*/
+    flex-grow: 1;
+    padding: 10px 10px 0px 10px;
+    display: flex;
+}
+
+.type-line-border {
+    border-top: 1px dotted #e5e5e5;
+}
+
+.tags-title {
+    display: inline-block;
+    width: 75px;
+    color: #999;
+    padding: 5px;
+}
+
+.type-line a {
+    color: black;
+    /*margin-right: 20px;*/
+    padding: 0px 10px 0px 10px;
+    line-height: 25px;
+    display: inline-block;
+}
+
+.type-line a:hover {
+    color: red;
+}
+
+.type-line a.active {
+    background-color: red;
+    color: white;
+    border-radius: 15px;
+}
+
+
+/*电影列表*/
+.movie-list {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+
+.movie-item {
+    /*background-color: orange;*/
+    margin: 15px;
+}
+
+.img-item {
+    width: 160px;
+    height: 220px;
+    background-color: greenyellow;
+}
+
+.movie-item a {
+    text-decoration: none;
+    color : black;
+    display : inline-block;
+    width: 160px;
+    text-align: center;
+
+}
+
+.movie-rating {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
+
+.big {
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "微软雅黑";
+    color : orange;
+}
+
+.small {
+    font-size: 14px;
+    font-family: "微软雅黑";
+    color : orange;
+}
+
+

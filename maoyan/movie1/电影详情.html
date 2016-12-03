@@ -1,0 +1,136 @@
+
+<div ng-controller="movieDetailController" ng-cloak>
+
+	<!--电影详情头部-->
+	<div class="movie-banner">
+		<div class="movie-container">
+			
+			<!-- 左边容器 -->
+			<div class="movie-left">
+				
+				<!-- 电影图片 -->
+				<img ng-src="{{movie.img | replaceImg}}" class="movie-img" />
+				
+				<!-- 电影信息 -->
+				<div class="movie-info">
+					<h3 class="movie-name">{{ movie.nm }}</h3>
+					<div style="font-size: 18px;">{{ movie.enm }}</div>
+					<p style="font-size: 14px;">{{ movie.cat }}</p>
+					<p style="font-size: 14px;">{{ movie.src }} / {{ movie.dur }}分钟</p>
+					<p style="font-size: 14px;">{{ movie.pubDesc }}</p>
+					
+					<div class="movie-action">
+						<a class="wish" ui-sref="login">想看</a>
+						<a class="wish" ui-sref="login">评分</a>
+					</div>
+					
+				</div>			
+			</div>
+			
+			<!--右边容器-->
+			<div class="movie-right">
+				<div class="movie-detail-rating">
+					<div class="rating-box">
+						<div class="rating-title">用户评分</div>
+						<div class="rating-score">{{ movie.sc }}</div>
+						<div class="rating-info">({{ movie.snum/10000.0 | number:1 }}万人评分)</div>
+					</div>
+					<div class="rating-box">
+						<div class="rating-title">专业评分</div>
+						<div class="rating-score">{{ movie.proScore }}</div>
+						<div class="rating-info">({{ movie.proScoreNum }}人评分)</div>
+						
+					</div>
+					<div class="rating-box" style="margin-right: 0;">
+						<div class="rating-title">累加票房</div>
+						<div class="rating-box-number">
+							3.61亿
+						</div>
+					</div>
+				</div>
+				<a href="" class="sale-btn">立即购买</a>
+			</div>
+			
+		</div>
+		<div class="wrapper-bg"></div>
+		
+	</div>
+	
+	<!--内容-->
+	<div>
+		<div class="main-container">
+			
+			<!-- 左边内容 -->
+			<div class="main-left" ng-init="selectedIndex=0">
+				<!-- 选项卡 -->
+				<ul class="movie-tabs">
+					<li ng-class="{active:selectedIndex==0}" ng-click="selectedIndex=0">介绍</li>
+					<li ng-class="{active:selectedIndex==1}" ng-click="selectedIndex=1">演职人员</li>
+					<li ng-class="{active:selectedIndex==2}" ng-click="selectedIndex=2">奖项</li>
+					<li ng-class="{active:selectedIndex==3}" ng-click="selectedIndex=3">图集</li>
+				</ul>
+				
+				<!-- 介绍 -->
+				<div ui-view="introduce" ng-if="selectedIndex==0"></div>
+				
+				<!-- 演职人员 -->
+				<div ui-view="actors" ng-if="selectedIndex==1"></div>
+				
+				<!-- 图集 -->
+				<div ui-view="pics" ng-if="selectedIndex==3"></div>
+				
+				
+				
+			</div>
+			
+			<!-- 右边：相关资讯、相关电影 -->
+			<div class="main-right">
+				
+				<div class="movie-module">
+					<div class="movie-module-title">
+						相关资讯
+					</div>
+					
+					<dl>
+						<dd class="movie-news" ng-repeat="new in news">
+							<div class="movie-news-img">
+								<a href="#"><img  ng-src="{{ new.previewImages[0].url | replaceImg:140:86 }}" /></a>
+							</div>
+							<div class="movie-news-content">
+								<div class="movie-news-title">
+									<a href="#/"> {{ new.title }} </a>
+								</div>
+								<div class="movie-news-info">
+									<span> {{ new.source }} </span>
+									<span>
+										{{'查看数:'+ new.viewCount}} {{ '评论数:'+ new.commentCount }}
+									</span>
+								</div>
+							</div>
+						</dd>
+					</dl>
+					
+				</div>	
+				
+				<div class="movie-module">
+					<div class="movie-module-title">
+						相关电影
+					</div>	
+					
+					<div class="movie-module-content">
+						<div class="movie-related-box">
+							<div class="movie-related-box-item" ng-repeat="m in relatedMovies">
+								<img ng-src="{{ m.img | replaceImg:106:145 }}" style="width: 106px;height: 145px;"/>
+								<div class="related-movie-title">{{ m.title }}</div>
+								<div class="related-movie-rating">{{ m.sc == 0?'暂无评分':m.sc }}</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
