@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Bates-贝茨博客:打飞机游戏-半成品</title>
+    <!--[if IE]><link rel="stylesheet" href="../../css/ie.css"/><![endif]-->
+    <style type="text/css">
+        *{padding: 0;margin: 0;}
+        body{background: #000;color: #fff;font-family: Microsoft YaHei, Calibri, Tahoma, sans-serif;}
+        #box{width: 300px;height: 500px;border: 10px solid #fff;margin: 100px auto;position: relative;}
+        #box h2{color: #fff;font-size: 24px;text-align: center;margin: 50px auto 50px;}
+        #box p{width: 150px;height: 40px;background: #fff;text-align: center;margin: 30px auto;color: #000;line-height: 40px;cursor: pointer;}
+        #box .plane{position: absolute;}
+        #box .bullet{position: absolute;}
+        #box .enemy{position: absolute;width: 23px;height: 30px;top: -30px;}
+        #back_home{
+            position: fixed;
+            left: 0;
+            top: 0;
+            font-size: 36px;
+            color: #fff;
+            text-decoration: none;
+        }
+        #back_home:hover{
+            color: sienna;
+        }
+    </style>
+</head>
+<body>
+<a href="../../index.html" id="back_home">&lt;返回首页</a>
+<div id="box"></div>
+<script type="text/javascript">
+    window.onload=function(){
+        game.init();
+    };
+    var o;
+    var game = {
+        "box":document.getElementById("box"),
+        /*场景初始化*/
+        "img" :function(){
+            game.oPlane = new Image();
+            game.oPlane.src = "img/plane.png";
+            game.oPlane.className = "plane";
+        },
+        "init":function(){
+            game.box.innerHTML = "";
+            game.img();
+            var oTit = game.create("h2");
+            oTit.innerHTML = "灰机大战";
+            var oDiv = game.create("div");
+            oDiv.innerHTML = "<p>简单</p><p>中等</p><p>困难</p>";
+            game.box.appendChild(oTit);
+            game.box.appendChild(oDiv);
+            var oP = oDiv.children;
+            for(var i=0;i<oP.length;i++){
+                oP[i].index =i;
+                oP[i].onmouseover = function(){
+                    this.style.cssText="color:#f00;background:pink;"
+                };
+                oP[i].onmouseout = function(){
+                    this.style.cssText="color:#000;background:#fff;"
+                };
+                oP[i].onclick = game.start;
+            };
+        },
+        /*游戏开始*/
+        "start":function(ev){
+            game.overN = false;
+            game.diffN = this.index;
+            ev = ev||event;
+            game.box.innerHTML = "";
+            game.plane(ev);
+            /**/
+            /*敌机生成速度 - - - - - -- - - - - - - */
+            game.start.timer = setInterval(game.enemy,game.diff[game.diffN][0]);
+            game.int();
+        },
+        "diff":[
+                [500,5,100],
+                [300,8,200],
+                [100,25,30]
+        ],
+        /*生成飞机*/
+        "plane":function(ev){
+            var bT = (game.box.offsetHeight - game.getStyle(game.box,"height"))/2 + game.box.offsetTop + game.oPlane.height/2;
+            var bL = (game.box.offsetWidth - game.getStyle(game.box,"width"))/2 + game.box.offsetLeft + game.oPlane.width/2;
+            var yTop = ev.pageY- bT;
+            var xLeft = ev.pageX - bL ;
+            game.box.appendChild(game.oPlane);
+            game.oPlane.style.cssText = "top:"+yTop+"px;left:"+xLeft+"px";
+            document.onmousemove = function(ev){
+                ev = ev||event;
+                yTop = ev.pageY-bT;
+                xLeft = ev.pageX -bL ;
+                if(yTop<0){
+                    yTop = 0;
+                }else if(yTop > game.getStyle(game.box,"height")-game.oPlane.height){
+                    yTop = game.getStyle(game.box,"height")-(game.oPlane.height);
+                }
+                if(xLeft<0){
+                    xLeft = 0;
+                }else if(xLeft>game.getStyle(game.box,"width")-game.oPlane.width){
+                    xLeft=game.getStyle(game.box,"width")-game.oPlane.width;
+                }
+                game.oPlane.style.cssText = "top:"+yTop+"px;left:"+xLeft+"px";
+            };
+            //game.bullet(yTop,xLeft);
+            //alert(game.getStyle(game.box,"height")-(game.oPlane.height/2))
+            /*子弹生成速度- - - - - - - - - - - - - - - - - - - - - - - - - - */
+            game.bTimer = setInterval(function(){
+                game.bullet(yTop,xLeft);
+            },game.diff[game.diffN][2]);
+        },
+        /*子弹*/
+        "bullet" : function(pTop,pLeft){
+            var oB = game.create("img");
+            oB.src = "img/bullet.png";
+            oB.className = "bullet";
+            game.box.appendChild(oB);
+            var bTop = pTop-oB.clientHeight+5;
+            var bLeft = pLeft+game.oPlane.clientWidth/2-oB.clientWidth+3;
+            oB.style.cssText = "top:"+bTop+"px;left:"+bLeft+"px;";
+            /*子弹向上跑的速度 - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+            oB.timer = setInterval(function(){
+                bTop -=50;
+                oB.style.top = bTop+"px";
+                if(!oB.parentNode){
+                    clearInterval(oB.timer);
+                    return;
+                }
+                if(bTop< - 22){
+                    clearInterval(oB.timer);
+                    oB.parentNode.removeChild( oB );
+                }
+            },30);
+        },
+        /*敌机*/
+        "enemy":function(){
+            var oEnemy = game.create("img");
+            oEnemy.src = "img/enemy.png";
+            oEnemy.className = "enemy";
+            game.box.appendChild(oEnemy);
+            var left = parseInt(Math.random()*(game.box.clientWidth - 17 - game.getStyle(oEnemy,"width")/2));
+            var top = game.getStyle(oEnemy,"top");
+            //console.log(left);
+            oEnemy.style.left = left+"px";
+            oEnemy.timer = setInterval(function(){
+                if(game.overN){
+                    clearInterval(oEnemy.timer);
+                    oEnemy.parentNode.removeChild(oEnemy)
+                }
+                top+=game.diff[game.diffN][1];
+                //console.error(top)
+                oEnemy.style.top = top+"px";
+                if(top>game.box.clientHeight){
+                    clearInterval(oEnemy.timer);
+                    oEnemy.parentNode.removeChild(oEnemy);
+                }else{
+                    var allBul = document.getElementsByClassName("bullet");
+                    for(var i=0;i<allBul.length;i++){
+                        if(game.bong(oEnemy,allBul[i])){
+                            allBul[i].parentNode.removeChild(allBul[i]);
+                            oEnemy.src = "img/boom.png";
+                            clearInterval(oEnemy.timer);
+                            setTimeout(function(){
+                                oEnemy.parentNode.removeChild(oEnemy);
+                            },100);
+                            game.num+=10;
+                            game.int.innerHTML = game.num;
+                        };
+                    }
+                    if(game.bong(oEnemy,game.oPlane)){
+                        oEnemy.src = "img/boom.png";
+                        clearInterval(oEnemy.timer);
+                        o = setTimeout(function(){
+                            oEnemy.parentNode.removeChild(oEnemy);
+                        },100);
+                        game.oPlane.src = "img/boom2.png";
+                        clearInterval(game.bTimer);
+                        document.onmousemove = null;
+                        clearInterval(game.start.timer);
+                        setTimeout(game.over,300);
+                    };
+                }
+            },30);
+        },
+        "bong" : function(obj1,obj2){
+            var t1 = game.getStyle(obj1,"top");
+            var b1 = t1+game.getStyle(obj1,"height");
+            var l1 = game.getStyle(obj1,"left");
+            var r1 = l1+game.getStyle(obj1,"width");
+
+            var t2 = game.getStyle(obj2,"top");
+            var b2 = t2+game.getStyle(obj2,"height");
+            var l2 = game.getStyle(obj2,"left");
+            var r2 = l2+game.getStyle(obj2,"width");
+            if(t1>b2|| l1>r2 || b1<t2 || r1 < l2){
+                return false;
+            }else{
+                return true;
+            };
+        },
+        "over" : function(){
+            game.overN = true;
+            game.box.innerHTML = "";
+            var over = game.create("div");
+            var btn = game.create("button");
+            btn.innerHTML = "重新开始";
+            btn.style.cssText = "position:absolute;top:50%;left:43%;";
+            btn.id = "btn";
+            over.style.cssText = "width:100%;height:100%;background:red;text-align:center;line-height:100px;font-size:30px;font-weight:bold;";
+            game.box.appendChild(over);
+            game.box.appendChild(btn);
+            o = null;
+            over.innerHTML = "游戏结束";
+            document.getElementById("btn").onclick = function(){
+                game.init();
+            };
+        },
+        "int" : function(){
+            game.int = game.create("span");
+            game.box.appendChild(game.int);
+            game.int.style.cssText = "position:absolute;left:3px;top:3px;font-size:14px;";
+            game.num = 0;
+            game.int.innerHTML = game.num;
+        },
+        /*创建元素*/
+        "create":function(tagName){
+            return document.createElement(tagName)
+        },
+        /*获得样式*/
+        "getStyle":function(obj,attr){
+            return obj.currentStyle?parseInt(obj.currentStyle):parseInt(getComputedStyle(obj)[attr]);
+        }
+    };
+</script>
+<script src="js/ie_test.js"></script>
+</body>
+</html>
