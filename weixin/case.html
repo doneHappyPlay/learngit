@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+　　<input type="button" onclick="btn_click()" value="测试">
+</body>
+</html>
+<script>
+    var Component = function(){
+        this.x = 0;
+        this.y = 0;
+        this.step = function(){
+            alert("hello world");
+        }
+    }
+    //继承自Component
+//    　　config才是传递给父类的参数
+//    第一个参数是建立继承关系的参数
+    var Hero = function(){
+        Component.call(this);
+        this.step = function(){
+            alert("子类重写父类的step方法");
+        }
+    }
+    function btn_click(){
+        var hero = new Hero();
+        hero.x = 50;
+        hero.y = 90;
+        alert(hero.x+hero.y);
+        hero.step();
+    }
+</script>
